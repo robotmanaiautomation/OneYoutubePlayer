@@ -10,17 +10,17 @@ def keyPath = System.getenv("KEY_PATH")
 def keyStorePassword = System.getenv("KEY_STORE_PASSWORD")
 def signingKeyAlias = System.getenv("KEY_ALIAS")
 def signingKeyPassword = System.getenv("KEY_PASSWORD")
-def baseVersionCode = 1110
-def appVersionName = "5.5.0"
+def baseVersionCode = 1
+def appVersionName = "0.1.0"
 def abiCodes = ['armeabi-v7a': 1, 'x86': 2, 'x86_64': 3, 'arm64-v8a': 4]
 def stableBuildConfigVersionCode =
         (100 * baseVersionCode) + abiCodes['armeabi-v7a']
 
 android {
-    compileSdk 37
+    compileSdkVersion providers.gradleProperty('oneplayer.compileSdk').getOrElse('android-37.0')
 
     defaultConfig {
-        applicationId "InfinityLoop1309.NewPipeEnhanced"
+        applicationId "dev.oneyoutubeplayer.app"
         minSdk 23
         //noinspection OldTargetApi,ExpiredTargetSdkVersion
         targetSdk 36
@@ -66,7 +66,7 @@ android {
             if (true) {
                 // default values when branch name could not be determined or is master or dev
                 applicationIdSuffix ".debug"
-                resValue "string", "app_name", "PipePipe Debug"
+                resValue "string", "app_name", "OneYoutubePlayer Debug"
             } else {
                 applicationIdSuffix ".debug." + normalizedWorkingBranch
                 resValue "string", "app_name", "PipePipe " + workingBranch
@@ -79,9 +79,9 @@ android {
             }
             if (System.properties.containsKey('packageSuffix')) {
                 applicationIdSuffix System.getProperty('packageSuffix')
-                resValue "string", "app_name", "PipePipe " + System.getProperty('packageSuffix')
+                resValue "string", "app_name", "OneYoutubePlayer " + System.getProperty('packageSuffix')
             } else {
-                resValue "string", "app_name", "PipePipe"
+                resValue "string", "app_name", "OneYoutubePlayer"
             }
             minifyEnabled true
             shrinkResources false // disabled to fix F-Droid's reproducible build
@@ -156,7 +156,7 @@ androidComponents.onVariants(androidComponents.selector().all()) { variant ->
         }
         output.versionCode.set(versionCode)
         output.outputFileName.set(
-                "PipePipe_${appVersionName}-${abi ?: 'universal'}-${variant.name}.apk")
+                "OneYoutubePlayer_${appVersionName}-${abi ?: 'universal'}-${variant.name}.apk")
     }
 }
 
@@ -178,6 +178,7 @@ afterEvaluate {
 }
 
 dependencies {
+    implementation project(':playback-core')
 /** Desugaring **/
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.5'
 

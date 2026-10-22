@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="oneplayer_video_input" type="id" />
+    <item name="oneplayer_pipepipe" type="id" />
+    <item name="oneplayer_smarttube" type="id" />
+</resources>

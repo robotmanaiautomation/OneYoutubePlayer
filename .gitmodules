@@ -1,0 +1,6 @@
+[submodule "vendor/SmartTube"]
+	path = vendor/SmartTube
+	url = https://github.com/robotmanaiautomation/OneYoutubePlayer-SmartTube.git
+[submodule "vendor/PipePipeExtractor"]
+	path = vendor/PipePipeExtractor
+	url = https://github.com/InfinityLoop1308/PipePipeExtractor.git

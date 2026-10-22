@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="oneplayer_video_input">유튜브 영상 주소 또는 영상 ID</string>
+    <string name="oneplayer_play">영상 재생</string>
+    <string name="oneplayer_browse">검색 및 구독</string>
+    <string name="oneplayer_engine">재생 방식</string>
+    <string name="oneplayer_smarttube_pending">SmartTube — 준비 중</string>
+    <string name="oneplayer_bad_url">올바른 유튜브 영상 주소 또는 ID를 입력하세요.</string>
+    <string name="oneplayer_open_failed">영상을 열지 못했습니다. 다시 시도하세요.</string>
+</resources>

@@ -1,0 +1,29 @@
+{
+  "initial_sources": {
+    "PipePipeClient": {
+      "path": ".",
+      "commit": "b91f008fb4d25b470c4383dcf42e31ee7696d272",
+      "origin": "https://github.com/robotmanaiautomation/OneYoutubePlayer.git"
+    },
+    "PipePipeExtractor": {
+      "path": "vendor/PipePipeExtractor",
+      "commit": "1a09d20e68dbd0892995bc58ffa539049a656690",
+      "origin": "https://github.com/InfinityLoop1308/PipePipeExtractor.git"
+    },
+    "SmartTube": {
+      "path": "vendor/SmartTube",
+      "commit": "c3db3a8e5ce0c391ad6bc5e8bb4f39f3859c2ffd",
+      "origin": "https://github.com/robotmanaiautomation/OneYoutubePlayer-SmartTube.git"
+    },
+    "MediaServiceCore": {
+      "path": "vendor/SmartTube/MediaServiceCore",
+      "commit": "3a575eeb2bf47da8e4cd40094b94dbd593e7aa9b",
+      "origin": "https://github.com/yuliskov/MediaServiceCore"
+    },
+    "SharedModules": {
+      "path": "vendor/SmartTube/SharedModules",
+      "commit": "d4f09b11133036d90826baf012e120d06486ae73",
+      "origin": "https://github.com/yuliskov/SharedModules"
+    }
+  }
+}

@@ -23,3 +23,5 @@ bin/
 *.code-workspace
 /config.py
 __pycache__
+.local/
+.generated/

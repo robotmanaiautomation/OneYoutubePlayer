@@ -31,9 +31,10 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "PipePipe"
+rootProject.name = "OneYoutubePlayer"
 
 include ':app'
 include ':ffmpeg'
+include ':playback-core'
 
-includeBuild('../PipePipeExtractor')
+includeBuild('vendor/PipePipeExtractor')
