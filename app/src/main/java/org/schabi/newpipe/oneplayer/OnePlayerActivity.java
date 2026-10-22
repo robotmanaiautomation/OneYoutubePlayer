@@ -67,7 +67,10 @@ public final class OnePlayerActivity extends AppCompatActivity {
             button.setText(id.displayName());
             engines.addView(button);
         }
-        engines.check(R.id.oneplayer_pipepipe);
+        final android.content.SharedPreferences preferences = getSharedPreferences("oneplayer", MODE_PRIVATE);
+        engines.check("SMARTTUBE".equals(preferences.getString("engine", "PIPEPIPE"))
+                ? R.id.oneplayer_smarttube : R.id.oneplayer_pipepipe);
+        videoInput.setText(preferences.getString("video", ""));
         body.addView(engines);
 
         if (!runtime.availableEngines().contains(EngineId.SMARTTUBE)) {
@@ -100,7 +103,10 @@ public final class OnePlayerActivity extends AppCompatActivity {
             return;
         }
         try {
-            OnePlayerRuntime.get(this).open((EngineId) selected.getTag(), request);
+            final EngineId engine = (EngineId) selected.getTag();
+            getSharedPreferences("oneplayer", MODE_PRIVATE).edit()
+                    .putString("engine", engine.name()).putString("video", request.watchUrl()).apply();
+            OnePlayerRuntime.get(this).open(engine, request);
         } catch (Exception error) {
             Toast.makeText(this, R.string.oneplayer_open_failed, Toast.LENGTH_LONG).show();
         }

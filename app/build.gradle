@@ -316,3 +316,25 @@ static String getGitWorkingBranch() {
         return ""
     }
 }
+
+// Generated from the pinned SmartTube sources with tools/export_smarttube.gradle.
+def smartTubeDependencies = rootProject.file('.generated/smarttube-runtime/dependencies.gradle')
+if (!smartTubeDependencies.isFile()) {
+    throw new GradleException('Prepare both runtimes first: ./tools/build_debug.sh')
+}
+apply from: smartTubeDependencies
+dependencies {
+    implementation fileTree(dir: rootProject.file('.generated/smarttube-runtime/libs'), include: ['*.aar'])
+}
+// Full protobuf also contains the lite API; keep a single runtime in the APK.
+configurations.configureEach {
+    exclude group: 'com.google.protobuf', module: 'protobuf-javalite'
+    exclude group: 'com.grack', module: 'nanojson'
+}
+// SmartTube's 3.x logging interceptor calls removed OkHttp internals. Keep all
+// OkHttp extensions on the host's version when sharing the public client API.
+dependencies {
+    implementation 'com.squareup.okhttp3:logging-interceptor:5.4.0'
+    implementation 'com.squareup.okhttp3:okhttp-dnsoverhttps:5.4.0'
+    implementation 'com.squareup.okhttp3:okhttp-brotli:5.4.0'
+}

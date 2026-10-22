@@ -1,0 +1,33 @@
+// Run with SmartTube's own Gradle/JDK; do not import its global dependency overrides.
+gradle.projectsEvaluated {
+    def modules = [
+        'commons-io-2.8.0': 'debug', 'sharedutils': 'debug',
+        'mediaserviceinterfaces': 'debug', 'youtubeapi': 'stfdroidDebug',
+        'exoplayer-library-core': 'debug', 'exoplayer-library-dash': 'stfdroidDebug',
+        'exoplayer-library-hls': 'debug', 'exoplayer-library-sabr': 'stfdroidDebug'
+    ]
+    rootProject.tasks.register('exportOnePlayerRuntime') {
+        modules.each { name, variant -> dependsOn(":${name}:bundle${variant.capitalize()}Aar") }
+        doLast {
+            def output = new File(rootProject.rootDir.parentFile, 'smarttube-runtime')
+            def libs = new File(output, 'libs')
+            rootProject.delete(libs) // disposable generated outputs only
+            libs.mkdirs()
+            def dependencies = new TreeSet<String>()
+            modules.each { name, variant ->
+                def module = rootProject.project(":${name}")
+                def aar = new File(module.buildDir, "outputs/aar/${name}-${variant.replace('Debug', '-debug')}.aar")
+                if (!aar.exists()) throw new GradleException("Missing ${aar}")
+                rootProject.copy { from aar; into libs }
+                module.configurations.getByName("${variant}RuntimeClasspath").incoming.resolutionResult.allComponents.each { component ->
+                    def id = component.moduleVersion
+                    if (id == null || component.id instanceof org.gradle.api.artifacts.component.ProjectComponentIdentifier) return
+                    if (!modules.containsKey(id.name) && id.group != rootProject.name) {
+                        dependencies.add("${id.group}:${id.name}:${id.version}" + (id.name == 'j2v8' ? '@aar' : ''))
+                    }
+                }
+            }
+            new File(output, 'dependencies.gradle').text = 'dependencies {\n' + dependencies.collect { "    implementation '${it}'" }.join('\n') + '\n}\n'
+        }
+    }
+}

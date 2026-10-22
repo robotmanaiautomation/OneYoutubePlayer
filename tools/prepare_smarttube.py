@@ -86,20 +86,24 @@ def prepare():
                 target.chmod(target.stat().st_mode | 0o111)
             count += 1
     report = {
-        "status": "source-preparation-only-not-integrated",
+        "status": "source-prepared-export-runtime-with-tools/export_smarttube.gradle",
         "smarttube_commit": commit(SOURCE),
         "media_service_core_commit": commit(SOURCE / "MediaServiceCore"),
         "shared_modules_commit": commit(SOURCE / "SharedModules"),
         "namespace": DOT_NEW,
         "copied_files": count,
         "transformed_files": changed,
-        "pending_gates": ["library-build", "dependency-isolation", "native-loading",
+        "downstream_validation": ["library-build", "dependency-isolation", "native-loading",
                           "one-apk-dex", "on-device-playback"],
     }
     (OUTPUT / "oneplayer-relocation.json").write_text(json.dumps(report, indent=2) + "\n")
     local_sdk = ROOT / ".local/android-sdk"
     if local_sdk.is_dir():
         (OUTPUT / "local.properties").write_text(f"sdk.dir={local_sdk}\n")
+    elif (ROOT / "local.properties").is_file():
+        sdk_lines = [line for line in (ROOT / "local.properties").read_text().splitlines()
+                     if line.startswith("sdk.dir=")]
+        (OUTPUT / "local.properties").write_text("\n".join(sdk_lines) + "\n")
     print(json.dumps({key: value for key, value in report.items()
                       if key != "transformed_files"}, indent=2))
     print(f"Transformed {len(changed)} source files; upstream sources unchanged.")

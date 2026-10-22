@@ -39,6 +39,14 @@ public final class OnePlayerRuntime {
                         app.stopService(new Intent(app, PlayerService.class));
                     };
                 }
+            }, new PlaybackBackend() {
+                @Override public EngineId id() { return EngineId.SMARTTUBE; }
+                @Override public Session open(final PlaybackRequest request) {
+                    app.startActivity(new Intent(app, SmartTubePlayerActivity.class)
+                            .putExtra(SmartTubePlayerActivity.VIDEO_ID, request.videoId())
+                            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+                    return SmartTubePlayerActivity::stopActive;
+                }
             }));
         }
         return coordinator;

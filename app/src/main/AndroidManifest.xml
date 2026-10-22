@@ -60,6 +60,10 @@
         android:resizeableActivity="true"
         android:enableOnBackInvokedCallback="false"
         tools:ignore="AllowBackup">
+        <activity android:name=".oneplayer.SmartTubePlayerActivity"
+            android:exported="false" android:configChanges="orientation|screenSize|keyboardHidden"
+            android:theme="@android:style/Theme.Material.NoActionBar" />
+
         <activity
                 android:name=".MainActivity"
                 android:label="@string/app_name"
