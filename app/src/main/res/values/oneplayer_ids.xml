@@ -3,4 +3,5 @@
     <item name="oneplayer_video_input" type="id" />
     <item name="oneplayer_pipepipe" type="id" />
     <item name="oneplayer_smarttube" type="id" />
+    <item name="oneplayer_engine_menu" type="id" />
 </resources>

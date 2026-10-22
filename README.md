@@ -5,21 +5,26 @@ with an embedded playback runtime from [SmartTube](https://github.com/yuliskov/S
 
 ## Initial test build
 
-One APK contains **both** PipePipe and SmartTube. Enter a YouTube URL or video ID,
-select an engine, and press **Play video**. Return to the entry screen to select the
-other engine and reopen the video. The last input and engine are remembered.
+One APK contains **both** PipePipe and SmartTube. The app starts directly in the
+PipePipe home/search/subscription UI. PipePipe is the default playback engine.
 
-- PipePipe: inherited player, search, subscriptions, queue and background playback.
-- SmartTube: embedded extractor and relocated custom ExoPlayer, including SABR,
-  DASH, HLS and direct URL source selection. Initial controls: play/pause, ±10s, back.
-- Manual selection; no automatic fallback or switching in the middle of playback.
-- Switching closes the previous owned player session before opening the next.
+If a video fails, return to the main screen and open **☰ → Playback engine**.
+Choose the other engine and use **Reopen last video**, or apply the choice and
+select the video again. The choice is remembered; there is no automatic fallback.
+
+- Normal YouTube video selection from search/lists and intents uses the chosen engine.
+- SmartTube routing runs before PipePipe stream extraction, so a PipePipe extraction
+  failure does not prevent retrying the same video with SmartTube.
+- Changing engines stops the existing playback session.
+- PipePipe retains its search, subscriptions, detail/player UI, queue and background features.
+- SmartTube uses an embedded extractor and relocated custom player with SABR/DASH/HLS/
+  direct sources and basic playback controls. Its full TV UI is not included.
+- Explicit background/popup/queue workflows still use PipePipe; SmartTube currently
+  opens individual videos. Non-YouTube services keep their existing behavior.
 - App ID: `dev.oneyoutubeplayer.app` (`.debug` for debug builds).
 
-This is an integration test harness. Search/subscription playback still uses PipePipe;
-the engine selector currently applies to manual URL/ID entry. SmartTube's full TV UI,
-login, cast, background service, quality menu and upstream error-recovery controllers
-are not included. Real TV/tablet and sustained/live playback remain validation work.
+This remains an initial integration build. Real TV/tablet, sustained/live playback,
+SmartTube login/cast/advanced recovery/quality controls require further work.
 YouTube changes still require upstream fixes, integration and a new app build.
 
 ## Sources

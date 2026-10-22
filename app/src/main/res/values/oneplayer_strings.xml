@@ -3,8 +3,14 @@
     <string name="oneplayer_video_input">YouTube video URL or ID</string>
     <string name="oneplayer_play">Play video</string>
     <string name="oneplayer_browse">Search and subscriptions</string>
-    <string name="oneplayer_engine">Playback method</string>
+    <string name="oneplayer_engine">Playback engine</string>
     <string name="oneplayer_smarttube_pending">SmartTube — coming soon</string>
     <string name="oneplayer_bad_url">Enter a valid YouTube video URL or ID.</string>
     <string name="oneplayer_open_failed">Could not open this video. Please try again.</string>
+    <string name="oneplayer_engine_menu">Playback engine: %1$s</string>
+    <string name="oneplayer_default_engine">PipePipe (default)</string>
+    <string name="oneplayer_engine_applied">Using %1$s for YouTube. Reopen the video to retry.</string>
+    <string name="oneplayer_retry_video">Reopen last video</string>
+    <string name="oneplayer_smarttube_error">SmartTube · %1$s
+Return to the main screen and select PipePipe from the playback engine menu to retry.</string>
 </resources>

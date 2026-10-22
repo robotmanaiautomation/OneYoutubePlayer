@@ -23,6 +23,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.jakewharton.processphoenix.ProcessPhoenix;
 
 import org.schabi.newpipe.MainActivity;
+import org.schabi.newpipe.oneplayer.OnePlayerRuntime;
 import org.schabi.newpipe.NewPipeDatabase;
 import org.schabi.newpipe.R;
 import org.schabi.newpipe.RouterActivity;
@@ -385,6 +386,10 @@ public final class NavigationHelper {
                                                @NonNull final String title,
                                                @Nullable final PlayQueue playQueue,
                                                final boolean switchingPlayers) {
+
+        if (OnePlayerRuntime.routeVideo(context, serviceId, url)) {
+            return;
+        }
 
         final boolean autoPlay;
         @Nullable final PlayerService.PlayerType playerType = PlayerHolder.getInstance().getType();

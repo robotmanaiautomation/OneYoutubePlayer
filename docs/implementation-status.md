@@ -3,7 +3,11 @@
 ## Implemented
 
 - One app ID / APK contains PipePipe and SmartTube playback runtimes.
-- URL/ID entry, explicit manual engine selection, remembered input and choice.
+- Starts directly in PipePipe MainActivity, with its home/search/subscription UI.
+- Hamburger drawer → Playback engine, remembered selection, and Reopen last video.
+- YouTube video navigation from search/lists/intents uses the chosen engine before
+  PipePipe stream extraction. Existing detail-player play actions also respect it.
+- No engine selection prompt during normal startup or video selection.
 - PipePipe uses its existing video detail/player and player services.
 - SmartTube uses its real YouTubeServiceManager and custom relocated ExoPlayer,
   with DASH/SABR/HLS/direct source routing matching the upstream source preference.
@@ -50,8 +54,8 @@ sample videos; long-term ad-free behavior depends on each upstream implementatio
 
 ## Current limitations
 
-- Only URL/ID entry uses the selector; inherited browsing/search/queue/download
-  flows still use PipePipe. A shared browsing UI and selector integration remain work.
+- Search/browsing metadata still uses PipePipe. Explicit background/popup/queue
+  workflows retain PipePipe; SmartTube currently plays individual selected videos.
 - SmartTube's full TV UI, login, background service, quality menu, SponsorBlock UI,
   casting, advanced error-recovery controllers and player-response reload handling
   are not ported. Source support alone does not claim those features.
@@ -59,9 +63,24 @@ sample videos; long-term ad-free behavior depends on each upstream implementatio
   codec/network/token cases have not been validated.
 - No automatic fallback or mid-playback engine switching; manually reopen the video.
 
+## Unified UI checks — 2026-10-22
+
+- Installed the updated ARM64 APK on the Android 34 emulator; MainActivity displays
+  the inherited home UI directly, without the old URL/engine entry screen.
+- Opened Playback engine from the drawer, selected SmartTube and applied the change.
+  Searched for jNQXAC9IVRw in the inherited search UI and selected the first result;
+  SmartTube opened it as SABR with the matching 19-second duration.
+- Returned to the main drawer, selected PipePipe, and used Reopen last video.
+  The most recently selected video (Bloomberg live, opened during navigation testing)
+  appeared in the PipePipe player with its live timeline and metadata.
+- Confirmed the persisted engine preference and the selection dialog state.
+- Unified the release version code across ABI/universal outputs after the first
+  universal-install check exposed an inherited 100-vs-104 downgrade mismatch.
+  Rebuilt universal APK then installed successfully over the existing ARM64 build.
+
 ## Test instructions
 
 Install the matching ABI APK from `app/build/outputs/apk/debug/`, open OneYoutubePlayer,
-enter a YouTube URL/ID, choose PipePipe or SmartTube, then Play video. To switch,
-return to the selector, choose the other engine and press Play video again.
-Use the same steps on a tablet or Android TV to begin device validation.
+and browse/search as in PipePipe. For manual recovery, return to the main screen,
+open ☰ → Playback engine, choose the other engine, then Reopen last video.
+Apply without reopening to use the choice for subsequent video selections.

@@ -14,7 +14,7 @@ def baseVersionCode = 1
 def appVersionName = "0.1.0"
 def abiCodes = ['armeabi-v7a': 1, 'x86': 2, 'x86_64': 3, 'arm64-v8a': 4]
 def stableBuildConfigVersionCode =
-        (100 * baseVersionCode) + abiCodes['armeabi-v7a']
+        (100 * baseVersionCode) + abiCodes.values().max()
 
 android {
     compileSdkVersion providers.gradleProperty('oneplayer.compileSdk').getOrElse('android-37.0')
@@ -150,11 +150,9 @@ androidComponents.onVariants(androidComponents.selector().all()) { variant ->
     variant.outputs.each { output ->
         def outputFileName = output.outputFileName.get()
         def abi = abiCodes.keySet().sort { -it.length() }.find { outputFileName.contains(it) }
-        def versionCode = 100 * baseVersionCode
-        if (abi != null) {
-            versionCode += abiCodes[abi]
-        }
-        output.versionCode.set(versionCode)
+        // A universal APK must update an ABI APK of the same release without a downgrade.
+        // Preserve the highest previously issued code for this release on every output.
+        output.versionCode.set(stableBuildConfigVersionCode)
         output.outputFileName.set(
                 "OneYoutubePlayer_${appVersionName}-${abi ?: 'universal'}-${variant.name}.apk")
     }

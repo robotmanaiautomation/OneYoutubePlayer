@@ -55,6 +55,8 @@ import androidx.preference.PreferenceManager;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
 import org.schabi.newpipe.databinding.ActivityMainBinding;
+import org.schabi.newpipe.oneplayer.PlaybackEngineDialog;
+import org.schabi.newpipe.oneplayer.OnePlayerRuntime;
 import org.schabi.newpipe.databinding.DrawerHeaderBinding;
 import org.schabi.newpipe.databinding.DrawerLayoutBinding;
 import org.schabi.newpipe.databinding.InstanceSpinnerLayoutBinding;
@@ -260,6 +262,13 @@ public class MainActivity extends AppCompatActivity {
                 .add(R.id.menu_tabs_group, ITEM_ID_HISTORY, ORDER, R.string.action_history)
                 .setIcon(R.drawable.ic_history);
 
+        // Playback recovery is available here without interrupting normal browsing.
+        drawerLayoutBinding.navigation.getMenu()
+                .add(R.id.menu_options_about_group, R.id.oneplayer_engine_menu, ORDER,
+                        getString(R.string.oneplayer_engine_menu,
+                                OnePlayerRuntime.selectedEngine(this).displayName()))
+                .setIcon(R.drawable.ic_play_arrow);
+
         //Settings and About
         drawerLayoutBinding.navigation.getMenu()
                 .add(R.id.menu_options_about_group, ITEM_ID_SETTINGS, ORDER, R.string.settings)
@@ -336,6 +345,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void optionsAboutSelected(final MenuItem item) {
+        if (item.getItemId() == R.id.oneplayer_engine_menu) {
+            PlaybackEngineDialog.show(this, () -> item.setTitle(getString(
+                    R.string.oneplayer_engine_menu,
+                    OnePlayerRuntime.selectedEngine(this).displayName())));
+            return;
+        }
         switch (item.getItemId()) {
             case ITEM_ID_SETTINGS:
                 NavigationHelper.openSettings(this);

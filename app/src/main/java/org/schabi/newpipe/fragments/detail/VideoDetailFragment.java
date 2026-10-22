@@ -1485,6 +1485,10 @@ public final class VideoDetailFragment
      * @param directlyFullscreenIfApplicable whether to request fullscreen directly
      */
     public void openVideoPlayer(final boolean directlyFullscreenIfApplicable) {
+        if (org.schabi.newpipe.oneplayer.OnePlayerRuntime.routeVideo(
+                requireContext(), serviceId, url)) {
+            return;
+        }
         if (directlyFullscreenIfApplicable) {
             // Make sure the bottom sheet turns out expanded. When this code kicks in the bottom
             // sheet could not have fully expanded yet, and thus be in the STATE_SETTLING state.

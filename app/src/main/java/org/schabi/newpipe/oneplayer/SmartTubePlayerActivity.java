@@ -204,8 +204,8 @@ public final class SmartTubePlayerActivity extends Activity {
 
     private void fail(Throwable error) {
         handler.removeCallbacks(progress);
-        status.setText("SmartTube · " + error.getClass().getSimpleName() + ": " + error.getMessage()
-                + "\n↩ 뒤로 돌아가 PipePipe를 선택해 다시 열 수 있습니다.");
+        status.setText(getString(org.schabi.newpipe.R.string.oneplayer_smarttube_error,
+                error.getClass().getSimpleName() + ": " + error.getMessage()));
         Log.e("OnePlayerSmartTube", "Playback failed", error);
         release();
     }
@@ -215,6 +215,12 @@ public final class SmartTubePlayerActivity extends Activity {
         if (extraction != null) { extraction.dispose(); extraction = null; }
         if (player != null) { player.release(); player = null; }
         Log.d("OnePlayerSmartTube", "Session released");
+    }
+
+    public static boolean hasActiveVideo(final String videoId) {
+        SmartTubePlayerActivity activity = active.get();
+        return activity != null && !activity.isFinishing()
+                && videoId.equals(activity.getIntent().getStringExtra(VIDEO_ID));
     }
 
     public static void stopActive() {

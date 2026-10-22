@@ -65,14 +65,9 @@
             android:theme="@android:style/Theme.Material.NoActionBar" />
 
         <activity
-                android:name=".MainActivity"
-                android:label="@string/app_name"
-                android:launchMode="singleTask" android:exported="true">
-        </activity>
-
-        <activity
-            android:name=".oneplayer.OnePlayerActivity"
+            android:name=".MainActivity"
             android:label="@string/app_name"
+            android:launchMode="singleTask"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -80,6 +75,8 @@
                 <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".oneplayer.OnePlayerActivity" android:exported="true" />
 
         <receiver android:name="androidx.media.session.MediaButtonReceiver" android:exported="true">
             <intent-filter>
